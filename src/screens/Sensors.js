@@ -1,0 +1,58 @@
+import React, { useContext, useEffect } from 'react';
+import { Context as statsContext } from '../contexts/statsContext';
+import { Container, Row, Col, H1, H3, Button, Text } from 'native-base';
+import { StyleSheet,ActivityIndicator } from 'react-native';
+export default function Sensors() {
+  const { state, getStats } = useContext(statsContext);
+
+  useEffect(() => {
+    getStats();
+  }, []);
+
+  if (!state.data) {
+		return <ActivityIndicator size="large" />;
+	}
+  return (
+    <Container>
+      <Row style={styles.row}>
+        <H1>Smart Fire Alarm System</H1>
+      </Row>
+      <Row>
+        <Col style={styles.row}>
+          <H3>Temperature (C):</H3>
+        </Col>
+        <Col style={styles.row}>
+          <H3>{state.data ? state.data.temperature.value : ''}</H3>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={styles.row}>
+          <H3>Humidity (%):</H3>
+        </Col>
+        <Col style={styles.row}>
+          <H3>{state.data ? state.data.humidity.value : ''}</H3>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={styles.row}>
+          <H3>CO Presence (%):</H3>
+        </Col>
+        <Col style={styles.row}>
+          <H3>{state.data ? state.data.co.value : ''}</H3>
+        </Col>
+      </Row>
+      <Row style={styles.row}>
+        <Button info>
+          <Text>House Map</Text>
+        </Button>
+      </Row>
+    </Container>
+  );
+}
+
+const styles = StyleSheet.create({
+  row: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+});
