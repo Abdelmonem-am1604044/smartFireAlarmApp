@@ -13,10 +13,10 @@ export default function Map() {
       initialRegion={{
         latitude: 25.316089,
         longitude: 51.487437,
-		latitudeDelta: LATITUDE_DELTA,
-		longitudeDelta: LONGITUDE_DELTA
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA,
       }}
-      showsUserLocation
+      showsUserLocation = {true}
       showsMyLocationButton
       showsCompass
     ></MapView>
@@ -26,6 +26,6 @@ export default function Map() {
 const styles = StyleSheet.create({
   map: {
     height: height,
-    width: width
+    width: width,
   },
 });

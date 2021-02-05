@@ -2,6 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { Context as statsContext } from '../contexts/statsContext';
 import { Container, Row, Col, H1, H3, Button, Text } from 'native-base';
 import { StyleSheet,ActivityIndicator } from 'react-native';
+import { notification } from '../NotificationManager';
+
 export default function Sensors() {
   const { state, getStats } = useContext(statsContext);
 
@@ -42,7 +44,9 @@ export default function Sensors() {
         </Col>
       </Row>
       <Row style={styles.row}>
-        <Button info>
+        <Button info onPress={()=>{
+          notification.showNotification('aad', 'aad');
+        }}>
           <Text>House Map</Text>
         </Button>
       </Row>
