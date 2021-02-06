@@ -1,19 +1,29 @@
 import React, { useContext, useEffect } from 'react';
 import { Context as statsContext } from '../contexts/statsContext';
 import { Container, Row, Col, H1, H3, Button, Text } from 'native-base';
-import { StyleSheet,ActivityIndicator } from 'react-native';
+import { StyleSheet, ActivityIndicator } from 'react-native';
 import { notification } from '../NotificationManager';
+import { io } from 'socket.io-client';
 
 export default function Sensors() {
-  const { state, getStats } = useContext(statsContext);
+  const { state, getStats, setStats } = useContext(statsContext);
+  const socket = io('http://fd374161cea4.ngrok.io');
+
+  useEffect(() => {}, []);
+
+  socket.on('alarm', (data) => {
+    setStats(data);
+    notification.showNotification('alarm', 'alarm');
+  });
 
   useEffect(() => {
     getStats();
-  }, []);
+  }, [state]);
 
   if (!state.data) {
-		return <ActivityIndicator size="large" />;
-	}
+    return <ActivityIndicator size="large" />;
+  }
+
   return (
     <Container>
       <Row style={styles.row}>
@@ -44,9 +54,12 @@ export default function Sensors() {
         </Col>
       </Row>
       <Row style={styles.row}>
-        <Button info onPress={()=>{
-          notification.showNotification('aad', 'aad');
-        }}>
+        <Button
+          info
+          onPress={() => {
+            notification.showNotification('aad', 'aad');
+          }}
+        >
           <Text>House Map</Text>
         </Button>
       </Row>
