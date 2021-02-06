@@ -10,4 +10,6 @@ import { notification } from './src/NotificationManager';
 // Must be outside of any component LifeCycle (such as `componentDidMount`).
 notification.configure();
 
+notification.createChannel();
+
 AppRegistry.registerComponent(appName, () => App);

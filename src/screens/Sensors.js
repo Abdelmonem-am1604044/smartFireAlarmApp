@@ -15,7 +15,10 @@ export default function Sensors() {
 
   socket.on('alarm', (data) => {
     setStats(data);
-    notification.showNotification('alarm', 'alarm');
+    notification.showNotification(
+      'Alarm',
+      'Sensor Rates Are Above Normal, Action Quickly'
+    );
   });
 
   if (!state.data) {
