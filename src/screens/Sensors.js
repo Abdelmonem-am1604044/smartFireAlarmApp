@@ -9,16 +9,14 @@ export default function Sensors() {
   const { state, getStats, setStats } = useContext(statsContext);
   const socket = io('http://fd374161cea4.ngrok.io');
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    getStats();
+  }, []);
 
   socket.on('alarm', (data) => {
     setStats(data);
     notification.showNotification('alarm', 'alarm');
   });
-
-  useEffect(() => {
-    getStats();
-  }, [state]);
 
   if (!state.data) {
     return <ActivityIndicator size="large" />;

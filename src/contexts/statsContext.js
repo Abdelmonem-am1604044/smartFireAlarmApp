@@ -14,7 +14,6 @@ const statsReducer = (state, action) => {
 
 const getStats = (dispatch) => async () => {
   const response = await api.get('/data');
-  console.log(response.data);
   dispatch({ type: 'get_data', payload: response.data });
 };
 
