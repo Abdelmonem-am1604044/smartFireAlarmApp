@@ -4,10 +4,12 @@ import { Container, Row, Col, H1, H3, Button, Text } from 'native-base';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { notification } from '../NotificationManager';
 import { io } from 'socket.io-client';
+import initiatePhoneCall from '../phoneCall';
+import sendSMS from '../sendSMS';
 
 export default function Sensors() {
   const { state, getStats, setStats } = useContext(statsContext);
-  const socket = io('http://fd374161cea4.ngrok.io');
+  const socket = io('http://ce3f967b2109.ngrok.io');
 
   useEffect(() => {
     getStats();
@@ -19,6 +21,8 @@ export default function Sensors() {
       'Alarm',
       'Sensor Rates Are Above Normal, Action Quickly'
     );
+    initiatePhoneCall();
+    // sendSMS();
   });
 
   if (!state.data) {
@@ -55,12 +59,7 @@ export default function Sensors() {
         </Col>
       </Row>
       <Row style={styles.row}>
-        <Button
-          info
-          onPress={() => {
-            notification.showNotification('aad', 'aad');
-          }}
-        >
+        <Button info>
           <Text>House Map</Text>
         </Button>
       </Row>
