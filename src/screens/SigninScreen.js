@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { Context as AuthContext } from '../contexts/authContext';
+import { Context as AuthContext } from '../contexts/AuthContext';
 import AuthForm from '../components/AuthForm';
 
 const SigninScreen = ({ navigation }) => {
@@ -16,7 +16,7 @@ const SigninScreen = ({ navigation }) => {
       errorMessage={state.errorMessage}
       onSubmit={signIn}
       submitText={'Sign In'}
-      headerText={'Sign In For Tracker'}
+      headerText={'Sign In For SFAS'}
       navigateText={"Don't have an account? Sign Up"}
       navigateTo={'Sign Up'}
     />

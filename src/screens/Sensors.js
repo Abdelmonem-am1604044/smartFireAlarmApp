@@ -9,7 +9,7 @@ import sendSMS from '../sendSMS';
 
 export default function Sensors() {
   const { state, getStats, setStats } = useContext(statsContext);
-  const socket = io('http://ce3f967b2109.ngrok.io');
+  const socket = io('http://4ef9f3e37828.ngrok.io');
 
   useEffect(() => {
     getStats();

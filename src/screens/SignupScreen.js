@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Context as AuthContext } from '../contexts/authContext';
+import { Context as AuthContext } from '../contexts/AuthContext';
 import AuthForm from '../components/AuthForm';
 
 const SignupScreen = () => {
@@ -9,7 +9,7 @@ const SignupScreen = () => {
       errorMessage={state.errorMessage}
       onSubmit={signUp}
       submitText={'Sign Up'}
-      headerText={'Sign Up For Tracker'}
+      headerText={'Sign Up For SFAS'}
       navigateText={'Already Have An Account? Sign In'}
       navigateTo={'Sign In'}
     />

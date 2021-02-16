@@ -1,9 +1,7 @@
-import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import createDataContext from './createDataContext';
-import trackerAPI from '../api/tracker';
+import api from '../api/server';
 import { navigate } from '../navigatorRef';
-// export const AuthContext = React.createContext();
 
 const authReducer = (state, action) => {
   switch (action.type) {
@@ -13,6 +11,8 @@ const authReducer = (state, action) => {
       return { token: action.payload, errorMessage: '' };
     case 'signout':
       return { token: null, errorMessage: '' };
+    case 'token':
+      return { ...state, isSigned: action.payload };
     default:
       return state;
   }
@@ -22,7 +22,7 @@ const clearMessage = (dispatch) => () => dispatch({ type: 'clear_message' });
 
 const signIn = (dispatch) => async ({ username, password }) => {
   try {
-    const response = await trackerAPI.post('/signin', { username, password });
+    const response = await api.post('/signin', { username, password });
     await AsyncStorage.setItem('token', response.data.token);
     dispatch({ action: 'signin', payload: response.data.token });
     navigate('Home');
@@ -36,7 +36,7 @@ const signIn = (dispatch) => async ({ username, password }) => {
 
 const signUp = (dispatch) => async ({ username, password }) => {
   try {
-    const response = await trackerAPI.post('/signup', { username, password });
+    const response = await api.post('/signup', { username, password });
     await AsyncStorage.setItem('token', response.data.token);
     dispatch({ action: 'signin', payload: response.data.token });
     navigate('Home');
@@ -53,8 +53,19 @@ const signOut = (dispatch) => async () => {
   navigate('Sign In');
   dispatch({ action: 'signout' });
 };
+
+const isSignedIn = (dispatch) => async () => {
+  let token = await AsyncStorage.getItem('token');
+  console.log(token);
+  if (token) {
+    dispatch({ action: 'token', payload: true });
+  } else {
+    dispatch({ action: 'token', payload: false });
+  }
+};
+
 export const { Provider, Context } = createDataContext(
   authReducer,
-  { signIn, signOut, signUp, clearMessage },
-  { token: null, errorMessage: '' }
+  { signIn, signOut, signUp, clearMessage, isSignedIn },
+  { token: null, errorMessage: '', isSigned: false }
 );
