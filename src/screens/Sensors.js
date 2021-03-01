@@ -4,12 +4,12 @@ import { Container, Row, Col, H1, H3, Button, Text } from 'native-base';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { notification } from '../NotificationManager';
 import { io } from 'socket.io-client';
-import initiatePhoneCall from '../phoneCall';
-import sendSMS from '../sendSMS';
-
+// import initiatePhoneCall from '../phoneCall';
+// import sendSMS from '../sendSMS';
+// 
 export default function Sensors() {
   const { state, getStats, setStats } = useContext(statsContext);
-  const socket = io('http://4ef9f3e37828.ngrok.io');
+  const socket = io('http://68efba2673a4.ngrok.io');
 
   useEffect(() => {
     getStats();
@@ -21,7 +21,7 @@ export default function Sensors() {
       'Alarm',
       'Sensor Rates Are Above Normal, Action Quickly'
     );
-    initiatePhoneCall();
+    // initiatePhoneCall();
     // sendSMS();
   });
 
@@ -39,7 +39,7 @@ export default function Sensors() {
           <H3>Temperature (C):</H3>
         </Col>
         <Col style={styles.row}>
-          <H3>{state.data ? state.data.temperature.value : ''}</H3>
+          <H3>{state.data ? state.data.temperature : ''}</H3>
         </Col>
       </Row>
       <Row>
@@ -47,7 +47,7 @@ export default function Sensors() {
           <H3>Humidity (%):</H3>
         </Col>
         <Col style={styles.row}>
-          <H3>{state.data ? state.data.humidity.value : ''}</H3>
+          <H3>{state.data ? state.data.humidity : ''}</H3>
         </Col>
       </Row>
       <Row>
@@ -55,7 +55,7 @@ export default function Sensors() {
           <H3>CO Presence (%):</H3>
         </Col>
         <Col style={styles.row}>
-          <H3>{state.data ? state.data.co.value : ''}</H3>
+          <H3>{state.data ? state.data.co : ''}</H3>
         </Col>
       </Row>
       <Row style={styles.row}>

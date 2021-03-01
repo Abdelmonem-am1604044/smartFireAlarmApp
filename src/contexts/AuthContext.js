@@ -34,9 +34,9 @@ const signIn = (dispatch) => async ({ username, password }) => {
   }
 };
 
-const signUp = (dispatch) => async ({ username, password }) => {
+const signUp = (dispatch) => async (link) => {
   try {
-    const response = await api.post('/signup', { username, password });
+    const response = await api.post(link);
     await AsyncStorage.setItem('token', response.data.token);
     dispatch({ action: 'signin', payload: response.data.token });
     navigate('Home');

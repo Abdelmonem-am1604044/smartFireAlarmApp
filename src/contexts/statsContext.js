@@ -13,7 +13,7 @@ const statsReducer = (state, action) => {
 };
 
 const getStats = (dispatch) => async () => {
-  const response = await api.get('/data');
+  const response = await api.get('/records');
   dispatch({ type: 'get_data', payload: response.data });
 };
 
