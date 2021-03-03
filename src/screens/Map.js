@@ -6,9 +6,11 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 import { Context as statsContext } from '../contexts/statsContext';
+import { Context as authContext } from '../contexts/AuthContext';
 
 export default function Map() {
   const { state } = useContext(statsContext);
+  const { state: authState } = useContext(authContext);
   return (
     <MapView
       style={styles.map}
@@ -22,16 +24,27 @@ export default function Map() {
       showsMyLocationButton
       showsCompass
     >
-      {state.data && (
+      {state && state.data && state.data.sensorId && (
         <Marker
           coordinate={{
             latitude: state.data.sensorId.latitude,
             longitude: state.data.sensorId.longitude,
           }}
-          title="sxgdsrg"
-          description="asfse"
+          title={`Sensor Key: ${state.data.sensorId.key}`}
         />
       )}
+      {authState.data.map((sensor) => {
+        return (
+          <Marker
+            key={sensor.key}
+            coordinate={{
+              latitude: sensor.latitude,
+              longitude: sensor.longitude,
+            }}
+            title={`Sensor Key: ${sensor.key}`}
+          />
+        );
+      })}
     </MapView>
   );
 }

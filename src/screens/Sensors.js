@@ -1,33 +1,52 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Context as statsContext } from '../contexts/statsContext';
 import { Container, Row, Col, H1, H3, Button, Text } from 'native-base';
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { notification } from '../NotificationManager';
 import { io } from 'socket.io-client';
-// import initiatePhoneCall from '../phoneCall';
-// import sendSMS from '../sendSMS';
-// 
+import { Context as authContext } from '../contexts/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export default function Sensors() {
   const { state, getStats, setStats } = useContext(statsContext);
-  const socket = io('http://68efba2673a4.ngrok.io');
+  const { state: authState } = useContext(statsContext);
+  const [token, setToken] = useState('fs');
 
   useEffect(() => {
     getStats();
+    AsyncStorage.getItem('token').then((res) => {
+      if (res !== null) {
+        setToken(res);
+      } else {
+        setToken(undefined);
+      }
+    });
   }, []);
 
-  socket.on('alarm', (data) => {
+  const socket = io('http://ff8a884a74d6.ngrok.io', {
+    query: `type=${
+      token ? (state.data ? state.data.sensorId.key : 'null') : 'admin'
+    }`,
+  });
+
+  socket.on('sensor', (data) => {
     setStats(data);
     notification.showNotification(
       'Alarm',
       'Sensor Rates Are Above Normal, Action Quickly'
     );
-    // initiatePhoneCall();
-    // sendSMS();
   });
 
-  if (!state.data) {
-    return <ActivityIndicator size="large" />;
-  }
+  socket.on('admin', (data) => {
+    // setStats(data);
+    notification.showNotification(
+      'Alarm',
+      `Sensor #${data.sensorId.key} Rates Are Above Normal`
+    );
+  });
+  // if (!state.data) {
+  //   return <ActivityIndicator size="large" />;
+  // }
 
   return (
     <Container>
@@ -39,7 +58,7 @@ export default function Sensors() {
           <H3>Temperature (C):</H3>
         </Col>
         <Col style={styles.row}>
-          <H3>{state.data ? state.data.temperature : ''}</H3>
+          <H3>{state.data ? state.data.temperature : 'No Data'}</H3>
         </Col>
       </Row>
       <Row>
@@ -47,7 +66,7 @@ export default function Sensors() {
           <H3>Humidity (%):</H3>
         </Col>
         <Col style={styles.row}>
-          <H3>{state.data ? state.data.humidity : ''}</H3>
+          <H3>{state.data ? state.data.humidity : 'No Data'}</H3>
         </Col>
       </Row>
       <Row>
@@ -55,7 +74,7 @@ export default function Sensors() {
           <H3>CO Presence (%):</H3>
         </Col>
         <Col style={styles.row}>
-          <H3>{state.data ? state.data.co : ''}</H3>
+          <H3>{state.data ? state.data.co : 'No Data'}</H3>
         </Col>
       </Row>
       <Row style={styles.row}>

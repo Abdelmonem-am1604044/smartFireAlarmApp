@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { Context as AuthContext } from '../contexts/AuthContext';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { navigate } from '../navigatorRef';
 
 const SignupScreen = () => {
   const { signUp } = useContext(AuthContext);
@@ -10,18 +11,19 @@ const SignupScreen = () => {
     signUp(e.data);
   };
 
+  const onPress = () => {
+    navigate('Sign In');
+  };
+
   return (
     <QRCodeScanner
       onRead={onSuccess}
       topContent={
-        <Text style={styles.centerText}>
-          Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text>{' '}
-          on your computer and scan the QR code.
-        </Text>
+        <Text style={styles.centerText}>Scan Your Sensor To View Its Data</Text>
       }
       bottomContent={
-        <TouchableOpacity style={styles.buttonTouchable}>
-          <Text style={styles.buttonText}>OK. Got it!</Text>
+        <TouchableOpacity style={styles.buttonTouchable} onPress={onPress}>
+          <Text style={styles.buttonText}>Civil Defense?</Text>
         </TouchableOpacity>
       }
     />
@@ -44,7 +46,7 @@ const styles = StyleSheet.create({
     color: 'rgb(0,122,255)',
   },
   buttonTouchable: {
-    padding: 16,
+    padding: 5,
   },
 });
 

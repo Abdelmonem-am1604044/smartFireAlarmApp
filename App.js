@@ -17,7 +17,6 @@ import {
   Context as AuthContext,
 } from './src/contexts/AuthContext';
 import { navigationRef } from './src/navigatorRef';
-import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
@@ -43,48 +42,9 @@ export default function App() {
 
   function Home() {
     return (
-      <MainFlow.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
-
-            if (route.name === 'Home') {
-              iconName = focused
-                ? 'ios-information-circle'
-                : 'ios-information-circle-outline';
-            } else if (route.name === 'Settings') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
-            }
-
-            // You can return any component that you like here!
-            return <Ionicons name={iconName} size={size} color={color} />;
-          },
-        })}
-        tabBarOptions={{
-          activeTintColor: 'tomato',
-          inactiveTintColor: 'gray',
-        }}
-      >
-        <MainFlow.Screen
-          name="Sensors"
-          component={Sensors}
-          options={{
-            tabBarIcon: () => <FontAwesome name="th-list" size={23} />,
-          }}
-        />
-        <MainFlow.Screen
-          name="Map"
-          component={Map}
-          options={{
-            tabBarLabel: 'Map',
-            tabBarIcon: () => <FontAwesome name="map" size={23} />,
-          }}
-        />
-        <MainFlow.Screen
-          name="Account"
-          component={Users}
-          options={{ tabBarIcon: () => <FontAwesome name="user" size={23} /> }}
-        />
+      <MainFlow.Navigator>
+        <MainFlow.Screen name="Sensors" component={Sensors} />
+        <MainFlow.Screen name="Map" component={Map} />
       </MainFlow.Navigator>
     );
   }

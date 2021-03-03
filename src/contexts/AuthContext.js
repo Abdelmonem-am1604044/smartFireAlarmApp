@@ -8,7 +8,7 @@ const authReducer = (state, action) => {
     case 'add_error':
       return { ...state, errorMessage: action.payload };
     case 'signin':
-      return { token: action.payload, errorMessage: '' };
+      return { ...state, data: action.payload, errorMessage: '' };
     case 'signout':
       return { token: null, errorMessage: '' };
     case 'token':
@@ -20,16 +20,16 @@ const authReducer = (state, action) => {
 
 const clearMessage = (dispatch) => () => dispatch({ type: 'clear_message' });
 
-const signIn = (dispatch) => async ({ username, password }) => {
+const signIn = (dispatch) => async ({ code }) => {
   try {
-    const response = await api.post('/signin', { username, password });
-    await AsyncStorage.setItem('token', response.data.token);
-    dispatch({ action: 'signin', payload: response.data.token });
+    const response = await api.post('/civil_defense', { code });
+    dispatch({ type: 'signin', payload: response.data });
     navigate('Home');
   } catch (error) {
+    console.log(error);
     dispatch({
       type: 'add_error',
-      payload: 'Something went wrong with the signin',
+      payload: 'You Entered An Incorrect passcode',
     });
   }
 };
@@ -67,5 +67,5 @@ const isSignedIn = (dispatch) => async () => {
 export const { Provider, Context } = createDataContext(
   authReducer,
   { signIn, signOut, signUp, clearMessage, isSignedIn },
-  { token: null, errorMessage: '', isSigned: false }
+  { token: null, errorMessage: '', isSigned: false, data: [] }
 );

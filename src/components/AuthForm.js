@@ -13,27 +13,27 @@ export default function AuthForm({
   navigateText,
 }) {
   const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
   return (
     <View style={styles.container}>
       <Spacer>
         <Text h3>{headerText}</Text>
       </Spacer>
       <Spacer>
-        <Input
+        {/* <Input
           label="Username"
           value={username}
           onChangeText={setUsername}
           autoCapitalize="none"
           autoCorrect={false}
-        />
+        /> */}
       </Spacer>
       <Spacer>
         <Input
-          label="Password"
+          label="Passcode"
           secureTextEntry
-          value={password}
-          onChangeText={setPassword}
+          value={code}
+          onChangeText={setCode}
           autoCapitalize="none"
           autoCorrect={false}
         />
@@ -47,7 +47,7 @@ export default function AuthForm({
         <Button
           title={submitText}
           onPress={() => {
-            onSubmit({ username, password });
+            onSubmit({ code });
           }}
         />
       </Spacer>
