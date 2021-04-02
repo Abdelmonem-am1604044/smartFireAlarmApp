@@ -25,7 +25,7 @@ export default function Sensors() {
     });
   }, []);
 
-  const socket = io('http://6b1237b5acfb.ngrok.io', {
+  const socket = io('http://51cec8fedb3b.ngrok.io', {
     query: `type=${
       token ? (state.data ? state.data.sensorId.key : 'null') : 'admin'
     }`,
@@ -97,6 +97,14 @@ export default function Sensors() {
         </Col>
         <Col style={styles.row}>
           <H3>{state.data ? state.data.co : 'No Data'}</H3>
+        </Col>
+      </Row>
+      <Row>
+        <Col style={styles.row}>
+          <H3>Head Count:</H3>
+        </Col>
+        <Col style={styles.row}>
+          <H3>{state.data ? state.data.headCount : 'No Data'}</H3>
         </Col>
       </Row>
       <Row style={styles.row}>
